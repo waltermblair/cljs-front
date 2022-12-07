@@ -4,8 +4,8 @@
 
 (re-frame/reg-sub
  ::marketplace-data
- (fn [{:keys [marketplace-data]}]
-   (map #(assoc % :key (:state %)) marketplace-data)))
+ (fn [db]
+   (map #(assoc % :key (:state %)) (:marketplace-data db))))
 
 (re-frame/reg-sub
  ::table-visible?
@@ -16,7 +16,7 @@
  ::current-state
  :<- [::marketplace-data]
  :<- [::current-guess]
- (fn [[data _] _]
+ (fn [[data guess] _]
    (when (seq data)
      (let [count (count data)
            i (rand-int (dec count))]

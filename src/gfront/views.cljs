@@ -19,8 +19,8 @@
     :key "enrolled"}])
 
 (defn- submit-guess
-  [state guess]
-  (re-frame/dispatch [::events/submit-guess {:state state :guess guess}]))
+  [state actual guess]
+  (re-frame/dispatch [::events/submit-guess {:state state :actual-percent-enrolled actual :guessed-percent-enrolled guess}]))
 
 (defn main-panel []
   (let [marketplace-data (re-frame/subscribe [::subs/marketplace-data])
@@ -37,7 +37,8 @@
           [:> Form
            {:onFinish (fn [values]
                         (submit-guess
-                         (:state @current-state values)
+                         (:state @current-state)
+                         (:enrolled-percentage @current-state)
                          (-> values (js->clj :keywordize-keys true) :guess)))}
            [:> Form.Item
             {:label (gstring/format "Can you guess the % enrollment for %s?" (:state @current-state))
