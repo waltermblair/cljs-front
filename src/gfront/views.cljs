@@ -27,7 +27,8 @@
         table-visible? (re-frame/subscribe [::subs/table-visible?])
         current-state (re-frame/subscribe [::subs/current-state])
         current-guess (re-frame/subscribe [::subs/current-guess])
-        current-result (re-frame/subscribe [::subs/current-result])]
+        current-result (re-frame/subscribe [::subs/current-result])
+        average-difference (re-frame/subscribe [::subs/average-difference])]
     (fn []
       [:<>
        [:> Typography.Title
@@ -56,10 +57,12 @@
         (when @current-result
           [:<>
            [:> Typography.Title {:level 4}
-            (gstring/format "Your Guess: %s% | Actual: %s% | Difference: %s%"
-                            (:guess @current-guess)
-                            (Math/round (:enrolled-percentage @current-state))
-                            @current-result)]])
+            (gstring/format "Your Guess: %d% | Actual: %d% | Difference: %d%"
+                            (:guessed-percent-enrolled @current-guess)
+                            (Math/round (:actual-percent-enrolled @current-guess))
+                            @current-result)]
+           [:> Typography.Paragraph
+            (gstring/format "Mean guess error for this state: %d%" @average-difference)]])
         [:> Button
          {:on-click #(re-frame/dispatch [::events/toggle-table-visible])}
          (if @table-visible? "Hide Marketplace Data" "Reveal Marketplace Data")]]

@@ -29,10 +29,12 @@
 
 (re-frame/reg-sub
  ::current-result
- :<- [::current-state]
  :<- [::current-guess]
- (fn [[state {:keys [guess]}] _]
-   (when (and state guess)
-     (let [actual (:enrolled-percentage state)
-           diff (Math/abs (- actual guess))]
-       diff))))
+ (fn [{:keys [state guessed-percent-enrolled actual-percent-enrolled]} _]
+   (when (and state guessed-percent-enrolled)
+     (Math/abs (- actual-percent-enrolled guessed-percent-enrolled)))))
+
+(re-frame/reg-sub
+ ::average-difference
+ (fn [db]
+   (:average-difference db)))

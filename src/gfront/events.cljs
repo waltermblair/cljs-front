@@ -13,8 +13,9 @@
 
 (re-frame/reg-event-db
  ::process-post-response
- (fn [db [_ _]]
-   db))
+ (fn [db [_ response]]
+   (let [average-difference (-> response walk/keywordize-keys :average_difference)]
+     (assoc db :average-difference average-difference))))
 
 (re-frame/reg-event-db
  ::bad-response
