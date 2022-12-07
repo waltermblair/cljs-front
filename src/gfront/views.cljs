@@ -62,7 +62,7 @@
                             (Math/round (:actual-percent-enrolled @current-guess))
                             @current-result)]
            [:> Typography.Paragraph
-            (gstring/format "Mean guess error for this state: %d%" @average-difference)]])
+            (gstring/format "Mean guess error for %s: %d%" (:state @current-guess) @average-difference)]])
         [:> Button
          {:on-click #(re-frame/dispatch [::events/toggle-table-visible])}
          (if @table-visible? "Hide Marketplace Data" "Reveal Marketplace Data")]]

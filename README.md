@@ -1,9 +1,23 @@
 # gfront
 
-A [re-frame](https://github.com/day8/re-frame) application designed to ... well, that part is up to
-you.
+Sample clojure project using Clojure/Script, React, and MySQL.
+
+This front-end can be run against the Clojure/MySQL backend using docker-compose.
 
 ## Getting Started
+
+### Prerequisites
+npm
+
+### Running the app
+```
+docker-compose up -d & \
+npm install && \
+npx shadow-cljs watch app
+```
+
+- Visit http://localhost:8280 (or your favorite port)
+- Press Ctrl+H to dismiss the day8 panel.
 
 ### Project Overview
 
