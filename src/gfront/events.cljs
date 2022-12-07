@@ -29,6 +29,16 @@
    (assoc db :loading? true)))
 
 (re-frame/reg-event-db
+ ::submit-guess
+ (fn [db [_ guess]]
+   (assoc db :current-guess guess)))
+
+(re-frame/reg-event-db
+ ::toggle-table-visible
+ (fn [db _]
+   (update db :table-visible? not)))
+
+(re-frame/reg-event-db
  ::initialize-db
  (fn [_ _]
    db/default-db))

@@ -3,7 +3,8 @@
    [re-frame.core :as re-frame]
    [gfront.events :as events]
    [gfront.subs :as subs]
-   ["antd" :refer [Button Table Typography.Title]]))
+   [goog.string :as gstring]
+   ["antd" :refer [Button Form Form.Item InputNumber Table Space Typography.Paragraph Typography.Title]]))
 
 (enable-console-print!)
 (def ^:private columns
@@ -17,17 +18,63 @@
     :dataIndex "enrolled"
     :key "enrolled"}])
 
+(defn- submit-guess
+  [data state guess]
+  (let [actual (->> data
+                    (filter #(= state (:state %)))
+                    first
+                    :enrolled-percentage
+                    Math/round)
+        diff (Math/abs (- actual guess))]
+    (re-frame/dispatch [::events/submit-guess guess])))
+
 (defn main-panel []
-  (let [name (re-frame/subscribe [::subs/name])
-        marketplace-data (re-frame/subscribe [::subs/marketplace-data])]
+  (let [marketplace-data (re-frame/subscribe [::subs/marketplace-data])
+        table-visible? (re-frame/subscribe [::subs/table-visible?])
+        current-state (re-frame/subscribe [::subs/current-state])
+        current-guess (re-frame/subscribe [::subs/current-guess])
+        current-result (re-frame/subscribe [::subs/current-result])]
     (fn []
-      [:div
+      [:<>
        [:> Typography.Title
-        "Hello from " @name]
-       [:> Button
-        {:on-click #(re-frame/dispatch [::events/get-marketplace-data])}
-        "Get Marketplace Data"]
-       [:> Table
-        {:columns columns
-         :dataSource @marketplace-data
-         :pagination false}]])))
+        "Fun with Marketplace Enrollment Statistics"]
+       [:> Space {:direction "vertical"}
+        [:> Button
+         {:type "primary"
+          :on-click #(re-frame/dispatch [::events/get-marketplace-data])}
+         "Get Marketplace Data"]
+        (when @current-state
+          [:> Form
+           {:onFinish (fn [values]
+                        (submit-guess
+                         @marketplace-data
+                         (:state @current-state values)
+                         (-> values (js->clj :keywordize-keys true) :guess)))}
+           [:> Form.Item
+            {:label (gstring/format "Can you guess the % enrollment for %s?" (:state @current-state))
+             :name "guess"
+             :rules [{:required true :message "Aw, come on take a guess!"}]}
+            [:> InputNumber
+             {:min 0
+              :max 100
+              :addonAfter "%"}]]
+           [:> Form.Item
+            [:> Button
+             {:type "primary"
+              :htmlType "submit"}
+             "Submit Guess"]]])
+        (when @current-result
+          [:<>
+           [:> Typography.Title {:level 4}
+            (gstring/format "Your Guess: %s% | Actual: %s% | Difference: %s%"
+                            @current-guess
+                            (Math/round (:enrolled-percentage @current-state))
+                            @current-result)]])
+        [:> Button
+         {:on-click #(re-frame/dispatch [::events/toggle-table-visible])}
+         (if @table-visible? "Hide Marketplace Data" "Reveal Marketplace Data")]]
+       (when @table-visible?
+         [:> Table
+          {:columns columns
+           :dataSource @marketplace-data
+           :pagination false}])])))

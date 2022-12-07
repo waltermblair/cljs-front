@@ -2,13 +2,37 @@
   (:require
    [re-frame.core :as re-frame]))
 
-
 (re-frame/reg-sub
  ::marketplace-data
  (fn [{:keys [marketplace-data]}]
    (map #(assoc % :key (:state %)) marketplace-data)))
 
 (re-frame/reg-sub
- ::name
+ ::table-visible?
  (fn [db]
-   (:name db)))
+   (:table-visible? db)))
+
+(re-frame/reg-sub
+ ::current-state
+ :<- [::marketplace-data]
+ (fn [data _]
+   (when (seq data)
+     (let [count (count data)
+           i (rand-int (dec count))]
+       (nth data i)))))
+
+(re-frame/reg-sub
+ ::current-guess
+ (fn [db]
+   (:current-guess db)))
+
+(re-frame/reg-sub
+ ::current-result
+ :<- [::current-state]
+ :<- [::current-guess]
+ (fn [[state guess] _]
+   (let [actual (->> state
+                     :enrolled-percentage
+                     Math/round)
+         diff (Math/abs (- actual guess))]
+     diff)))
