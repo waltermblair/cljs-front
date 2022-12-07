@@ -9,7 +9,6 @@ This front-end can be run against the [Clojure/MySQL backend](https://github.com
 ### Prerequisites
 - docker / docker-compose
 - npm, jdk
-- Safari or Firefox
 
 ### Running the app
 ```
@@ -18,11 +17,16 @@ npm install && \
 npx shadow-cljs watch app
 ```
 
-- Visit http://localhost:8280 (or possibly 8281)
+- If 8280 was unavailable, please clear it and restart the app:
+    ```
+    lsof -i TCP:8280
+    kill -9 <pid>
+    npx shadow-cljs watch app
+    ```
+- Visit http://localhost:8280
 - Press Ctrl+H to dismiss the day8 panel.
 
 ### Todo
-- chrome cors
 - more features
 - UI tests
 - UI styling
