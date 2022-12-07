@@ -4,8 +4,7 @@
    [re-frame.core :as re-frame]
    [gfront.events :as events]
    [gfront.views :as views]
-   [gfront.config :as config]
-   ))
+   [gfront.config :as config]))
 
 
 (defn dev-setup []
@@ -20,5 +19,6 @@
 
 (defn init []
   (re-frame/dispatch-sync [::events/initialize-db])
+  (re-frame/dispatch [::events/get-marketplace-data])
   (dev-setup)
   (mount-root))

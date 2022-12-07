@@ -15,7 +15,8 @@
 (re-frame/reg-sub
  ::current-state
  :<- [::marketplace-data]
- (fn [data _]
+ :<- [::current-guess]
+ (fn [[data _] _]
    (when (seq data)
      (let [count (count data)
            i (rand-int (dec count))]
@@ -30,9 +31,10 @@
  ::current-result
  :<- [::current-state]
  :<- [::current-guess]
- (fn [[state guess] _]
-   (let [actual (->> state
-                     :enrolled-percentage
-                     Math/round)
-         diff (Math/abs (- actual guess))]
-     diff)))
+ (fn [[state {:keys [guess]}] _]
+   (when (and state guess)
+     (let [actual (->> state
+                       :enrolled-percentage
+                       Math/round)
+           diff (Math/abs (- actual guess))]
+       diff))))

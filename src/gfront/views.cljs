@@ -19,14 +19,8 @@
     :key "enrolled"}])
 
 (defn- submit-guess
-  [data state guess]
-  (let [actual (->> data
-                    (filter #(= state (:state %)))
-                    first
-                    :enrolled-percentage
-                    Math/round)
-        diff (Math/abs (- actual guess))]
-    (re-frame/dispatch [::events/submit-guess guess])))
+  [state guess]
+  (re-frame/dispatch [::events/submit-guess {:state state :guess guess}]))
 
 (defn main-panel []
   (let [marketplace-data (re-frame/subscribe [::subs/marketplace-data])
@@ -39,15 +33,10 @@
        [:> Typography.Title
         "Fun with Marketplace Enrollment Statistics"]
        [:> Space {:direction "vertical"}
-        [:> Button
-         {:type "primary"
-          :on-click #(re-frame/dispatch [::events/get-marketplace-data])}
-         "Get Marketplace Data"]
         (when @current-state
           [:> Form
            {:onFinish (fn [values]
                         (submit-guess
-                         @marketplace-data
                          (:state @current-state values)
                          (-> values (js->clj :keywordize-keys true) :guess)))}
            [:> Form.Item
@@ -67,7 +56,7 @@
           [:<>
            [:> Typography.Title {:level 4}
             (gstring/format "Your Guess: %s% | Actual: %s% | Difference: %s%"
-                            @current-guess
+                            (:guess @current-guess)
                             (Math/round (:enrolled-percentage @current-state))
                             @current-result)]])
         [:> Button
