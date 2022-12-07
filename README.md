@@ -1,8 +1,16 @@
 # gfront
 
-Sample clojure project using Clojure/Script, React, and MySQL.
+Sample clojure project using Clojure/Script, React, and MySQL. The goal is to have some fun with healthcare statistics, and who doesn't want to have fun with healthcare statistics? When the app loads it should fetch some marketplace enrollment data from HHS and then test your knowledge on state-level enrollment.
 
-This front-end can be run against the Clojure/MySQL backend using docker-compose.
+This front-end can be run against the [Clojure/MySQL backend](https://github.com/waltermblair/clj-back) using docker-compose.
+
+### Todo
+- more features
+- UI tests
+- UI styling
+- users
+- flyway
+- docker front-end
 
 ## Getting Started
 

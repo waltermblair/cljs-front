@@ -6,7 +6,6 @@
    [goog.string :as gstring]
    ["antd" :refer [Button Form Form.Item InputNumber Table Space Typography.Paragraph Typography.Title]]))
 
-(enable-console-print!)
 (def ^:private columns
   [{:title "State"
     :dataIndex "state"

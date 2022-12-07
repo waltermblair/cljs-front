@@ -16,7 +16,7 @@
  ::current-state
  :<- [::marketplace-data]
  :<- [::current-guess]
- (fn [[data guess] _]
+ (fn [[data _] _]
    (when (seq data)
      (let [count (count data)
            i (rand-int (dec count))]
