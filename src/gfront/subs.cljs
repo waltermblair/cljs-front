@@ -33,8 +33,6 @@
  :<- [::current-guess]
  (fn [[state {:keys [guess]}] _]
    (when (and state guess)
-     (let [actual (->> state
-                       :enrolled-percentage
-                       Math/round)
+     (let [actual (:enrolled-percentage state)
            diff (Math/abs (- actual guess))]
        diff))))

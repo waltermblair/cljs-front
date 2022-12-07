@@ -12,6 +12,11 @@
           :marketplace-data (walk/keywordize-keys response))))
 
 (re-frame/reg-event-db
+ ::process-post-response
+ (fn [db [_ _]]
+   db))
+
+(re-frame/reg-event-db
  ::bad-response
  (fn [db [_ _]]
    (assoc db :loading? false)))
@@ -29,14 +34,18 @@
  ::post-guess
  (fn [guess]
    (POST "http://localhost:3000/api/1/guess"
-     {:params guess})))
+     {:params guess
+      :format :json
+      :handler #(re-frame/dispatch [::process-post-response %1])
+      :error-handler #(re-frame/dispatch [::bad-response %1])})
+   nil))
 
 (re-frame/reg-event-fx
  ::submit-guess
  (fn [{:keys [db]} [_ guess]]
    (when guess
      {:db (assoc db :current-guess guess)
-      :fx [[:dispatch [::post-guess guess]]]})))
+      ::post-guess guess})))
 
 (re-frame/reg-event-db
  ::toggle-table-visible

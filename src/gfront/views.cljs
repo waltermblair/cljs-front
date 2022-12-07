@@ -38,7 +38,7 @@
            {:onFinish (fn [values]
                         (submit-guess
                          (:state @current-state)
-                         (:enrolled-percentage @current-state)
+                         (js->clj (:enrolled-percentage @current-state))
                          (-> values (js->clj :keywordize-keys true) :guess)))}
            [:> Form.Item
             {:label (gstring/format "Can you guess the % enrollment for %s?" (:state @current-state))
