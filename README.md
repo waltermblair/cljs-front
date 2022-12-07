@@ -4,18 +4,11 @@ Sample clojure project using Clojure/Script, React, and MySQL. The goal is to ha
 
 This front-end can be run against the [Clojure/MySQL backend](https://github.com/waltermblair/clj-back) using docker-compose.
 
-### Todo
-- more features
-- UI tests
-- UI styling
-- users
-- flyway
-- docker front-end
-
 ## Getting Started
 
 ### Prerequisites
-npm
+- docker / docker-compose
+- npm, jdk
 
 ### Running the app
 ```
@@ -24,10 +17,18 @@ npm install && \
 npx shadow-cljs watch app
 ```
 
-- Visit http://localhost:8280 (or your favorite port)
+- Visit http://localhost:8280 (or possibly 8281)
 - Press Ctrl+H to dismiss the day8 panel.
 
-### Project Overview
+### Todo
+- more features
+- UI tests
+- UI styling
+- users
+- flyway
+- docker front-end
+
+## Project Overview
 
 * Architecture:
 [Single Page Application (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
