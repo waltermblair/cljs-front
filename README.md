@@ -9,6 +9,7 @@ This front-end can be run against the [Clojure/MySQL backend](https://github.com
 ### Prerequisites
 - docker / docker-compose
 - npm, jdk
+- Safari or Firefox
 
 ### Running the app
 ```
@@ -21,6 +22,7 @@ npx shadow-cljs watch app
 - Press Ctrl+H to dismiss the day8 panel.
 
 ### Todo
+- chrome cors
 - more features
 - UI tests
 - UI styling
