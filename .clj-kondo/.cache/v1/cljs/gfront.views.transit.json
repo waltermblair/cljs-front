@@ -1,1 +1,0 @@
-["^ ","~$columns",["^ ","~:row",9,"~:col",1,"~:private",true,"~:name","^0","~:ns","~$gfront.views","~:top-ns","^6"],"~$main-panel",["^ ","^1",20,"^2",1,"~:fixed-arities",["~#set",[0]],"^4","^8","^5","^6","^7","^6","~:arities",["^ ","~i0",["^ ","~:ret","~:fn","~:arglist-str","[]"]]],"~:filename","/home/wblair/code/github.com/waltermblair/gfront/src/gfront/views.cljs"]
