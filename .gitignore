@@ -15,3 +15,7 @@
 /.shadow-cljs/
 
 .clj-kondo/
+.lsp/
+.idea/
+*.iml
+*DS_Store
